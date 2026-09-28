@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Burnout Recovery</title>
+
+<style>
+:root{
+  --cream:#fffaf6;
+  --paper:#fffdfb;
+  --blue:#c9dfe4;
+  --blue-light:#edf6f7;
+  --blue-dark:#708f97;
+  --pink:#edcbd4;
+  --ink:#403942;
+  --muted:#95858c;
+  --line:#e0e6e5;
+}
+
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  padding:0;
+  background:transparent;
+}
+
+body{
+  font-family:Georgia,"Times New Roman",serif;
+}
+
+.widget{
+  width:100%;
+  max-width:600px;
+  margin:20px auto;
+  color:var(--ink);
+}
+
+.card{
+  position:relative;
+  overflow:hidden;
+  background:var(--cream);
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:18px;
+}
+
+/* HEADER */
+
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+  margin-bottom:14px;
+}
+
+.kicker{
+  font-size:10px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:4px;
+}
+
+h1{
+  margin:0;
+  font-size:27px;
+  font-weight:400;
+  line-height:1.05;
+}
+
+.subtitle{
+  margin-top:5px;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.water{
+  font-size:27px;
+}
+
+/* ENERGY */
+
+.energy-box{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:13px;
+}
+
+.label{
+  font-size:10px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:var(--blue-dark);
+  margin-bottom:8px;
+}
+
+.energy-buttons{
+  display:flex;
+  gap:7px;
+}
+
+.energy{
+  flex:1;
+  border:1px solid var(--line);
+  background:#fff;
+  border-radius:12px;
+  padding:9px 5px;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:13px;
+  color:var(--muted);
+  cursor:pointer;
+  transition:.2s ease;
+}
+
+.energy:hover{
+  transform:translateY(-2px);
+}
+
+.energy.active{
+  background:var(--blue-light);
+  border-color:var(--blue);
+  color:var(--ink);
+}
+
+/* NEED */
+
+.need-title{
+  margin:13px 0 7px;
+  font-size:16px;
+}
+
+.needs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+}
+
+.need{
+  border:1px solid var(--line);
+  background:#fff;
+  border-radius:20px;
+  padding:8px 11px;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:12px;
+  color:var(--muted);
+  cursor:pointer;
+  transition:.2s ease;
+}
+
+.need:hover{
+  transform:translateY(-2px);
+}
+
+.need.active{
+  background:var(--blue-light);
+  border-color:var(--blue);
+  color:var(--ink);
+}
+
+/* ACTION */
+
+.action{
+  margin-top:12px;
+  background:#f9fcfc;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:13px;
+}
+
+.action-title{
+  font-size:16px;
+  margin-bottom:4px;
+}
+
+.action-text{
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.4;
+  min-height:18px;
+}
+
+.main-button{
+  margin-top:9px;
+  border:0;
+  background:var(--blue);
+  color:#4f6970;
+  border-radius:13px;
+  padding:9px 14px;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:13px;
+  cursor:pointer;
+  transition:.2s ease;
+}
+
+.main-button:hover{
+  transform:translateY(-2px);
+}
+
+/* MESSAGE */
+
+.message{
+  text-align:center;
+  min-height:18px;
+  margin-top:10px;
+  color:var(--muted);
+  font-size:12px;
+  font-style:italic;
+}
+
+/* RESET */
+
+.reset{
+  display:block;
+  margin:9px auto 0;
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:11px;
+  cursor:pointer;
+}
+
+/* EFFECTS */
+
+.effects{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+}
+
+.drop{
+  position:absolute;
+  font-size:17px;
+  opacity:0;
+  animation:float 1.7s ease-out forwards;
+}
+
+@keyframes float{
+  0%{
+    transform:translateY(10px) scale(.5);
+    opacity:0;
+  }
+
+  20%{
+    opacity:1;
+  }
+
+  100%{
+    transform:
+      translateY(-100px)
+      translateX(var(--drift))
+      scale(1.1);
+    opacity:0;
+  }
+}
+
+/* COMPLETE */
+
+.complete{
+  display:none;
+  text-align:center;
+  padding:14px 5px 4px;
+}
+
+.complete-icon{
+  display:block;
+  font-size:40px;
+  animation:pop .6s ease;
+}
+
+@keyframes pop{
+  0%{
+    transform:scale(.3);
+    opacity:0;
+  }
+
+  70%{
+    transform:scale(1.15);
+  }
+
+  100%{
+    transform:scale(1);
+    opacity:1;
+  }
+}
+
+.complete h2{
+  font-size:22px;
+  font-weight:400;
+  margin:7px 0 4px;
+}
+
+.complete p{
+  margin:0;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.5;
+}
+
+@media(max-width:500px){
+
+  .card{
+    padding:15px;
+    border-radius:20px;
+  }
+
+  h1{
+    font-size:24px;
+  }
+
+  .energy{
+    font-size:12px;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="widget">
+
+  <div class="card">
+
+    <div class="effects" id="effects"></div>
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+      <div>
+
+        <div class="kicker">
+          pause · restore · continue
+        </div>
+
+        <h1>💧 Burnout Recovery</h1>
+
+        <div class="subtitle">
+          You don't need more discipline. Check what you need.
+        </div>
+
+      </div>
+
+      <div class="water">💧</div>
+
+    </div>
+
+
+    <!-- ENERGY -->
+
+    <div class="energy-box">
+
+      <div class="label">
+        How full is your battery?
+      </div>
+
+      <div class="energy-buttons">
+
+        <button class="energy" data-energy="empty">
+          🪫 Empty
+        </button>
+
+        <button class="energy" data-energy="low">
+          🌫️ Low
+        </button>
+
+        <button class="energy" data-energy="okay">
+          🌱 Okay
+        </button>
+
+        <button class="energy" data-energy="good">
+          ☀️ Good
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- NEED -->
+
+    <div class="need-title">
+      What do you need most?
+    </div>
+
+    <div class="needs">
+
+      <button class="need" data-need="sleep">
+        😴 Sleep
+      </button>
+
+      <button class="need" data-need="food">
+        🥣 Nourish
+      </button>
+
+      <button class="need" data-need="quiet">
+        🤍 Quiet
+      </button>
+
+      <button class="need" data-need="movement">
+        🌿 Movement
+      </button>
+
+      <button class="need" data-need="connection">
+        🫂 Connection
+      </button>
+
+      <button class="need" data-need="fun">
+        🦋 Fun
+      </button>
+
+    </div>
+
+
+    <!-- ACTION -->
+
+    <div class="action">
+
+      <div class="label">
+        Your tiny recovery move
+      </div>
+
+      <div
+        class="action-title"
+        id="actionTitle"
+      >
+        Choose your energy + need.
+      </div>
+
+      <div
+        class="action-text"
+        id="actionText"
+      >
+        The widget will give you one small thing to do.
+      </div>
+
+      <button
+        class="main-button"
+        id="doneButton"
+        type="button"
+      >
+        I did it 💧
+      </button>
+
+    </div>
+
+
+    <div
+      class="message"
+      id="message"
+    >
+      Recovery is productive too.
+    </div>
+
+
+    <button
+      class="reset"
+      id="resetButton"
+      type="button"
+    >
+      reset
+    </button>
+
+
+    <!-- COMPLETE -->
+
+    <div
+      class="complete"
+      id="complete"
+    >
+
+      <span class="complete-icon">
+        💧✨
+      </span>
+
+      <h2>
+        Nervous system: one step calmer.
+      </h2>
+
+      <p>
+        That's enough for now.<br>
+        You are allowed to stop.
+      </p>
+
+      <button
+        class="main-button"
+        id="againButton"
+        type="button"
+      >
+        Another recovery move
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+(function(){
+
+  let selectedEnergy = "";
+  let selectedNeed = "";
+
+  const energyButtons =
+    document.querySelectorAll(".energy");
+
+  const needButtons =
+    document.querySelectorAll(".need");
+
+  const actionTitle =
+    document.getElementById("actionTitle");
+
+  const actionText =
+    document.getElementById("actionText");
+
+  const message =
+    document.getElementById("message");
+
+  const doneButton =
+    document.getElementById("doneButton");
+
+  const resetButton =
+    document.getElementById("resetButton");
+
+  const againButton =
+    document.getElementById("againButton");
+
+  const effects =
+    document.getElementById("effects");
+
+  const complete =
+    document.getElementById("complete");
+
+
+  /* =========================
+     RECOVERY ACTIONS
+  ========================= */
+
+  const actions = {
+
+    sleep:{
+      empty:[
+        "Put your phone away and lie down for 20 minutes.",
+        "Cancel one non-essential task and rest.",
+        "Get into bed earlier tonight."
+      ],
+      low:[
+        "Take a 15-minute quiet rest.",
+        "Dim the lights and step away from screens.",
+        "Give yourself permission to have a slow evening."
+      ],
+      okay:[
+        "Protect your bedtime tonight.",
+        "Take a short afternoon reset.",
+        "Start your evening routine 30 minutes earlier."
+      ],
+      good:[
+        "Use your energy without stealing from tomorrow.",
+        "Keep your normal sleep schedule.",
+        "Finish the day before you're completely exhausted."
+      ]
+    },
+
+    food:{
+      empty:[
+        "Drink water and eat the easiest nourishing thing available.",
+        "Make yourself a simple meal — no perfection required.",
+        "Have something with protein + carbs."
+      ],
+      low:[
+        "Eat something before starting another task.",
+        "Make a 5-minute meal.",
+        "Refill your water."
+      ],
+      okay:[
+        "Have a proper meal away from your laptop.",
+        "Prepare one easy snack for later.",
+        "Drink a full glass of water."
+      ],
+      good:[
+        "Keep your energy stable with a real meal.",
+        "Eat before you get ravenous.",
+        "Prepare tomorrow's easiest meal."
+      ]
+    },
+
+    quiet:{
+      empty:[
+        "Put your phone on Do Not Disturb for 20 minutes.",
+        "Lie down somewhere quiet.",
+        "Close every unnecessary tab."
+      ],
+      low:[
+        "Take 10 minutes with absolutely no input.",
+        "Sit somewhere calm and do nothing.",
+        "Mute notifications for the next hour."
+      ],
+      okay:[
+        "Take a quiet coffee or tea break.",
+        "Spend 15 minutes without social media.",
+        "Go somewhere peaceful."
+      ],
+      good:[
+        "Protect one quiet pocket of your day.",
+        "Take a screen-free break.",
+        "Enjoy 10 minutes without consuming anything."
+      ]
+    },
+
+    movement:{
+      empty:[
+        "Stretch in bed for 3 minutes.",
+        "Walk slowly around your room.",
+        "Do five gentle shoulder rolls."
+      ],
+      low:[
+        "Take a 10-minute slow walk.",
+        "Stretch for one song.",
+        "Step outside for fresh air."
+      ],
+      okay:[
+        "Take a 20-minute walk.",
+        "Do a gentle stretching session.",
+        "Move your body without turning it into a workout."
+      ],
+      good:[
+        "Do something physical that you actually enjoy.",
+        "Take a longer walk outside.",
+        "Dance to three songs."
+      ]
+    },
+
+    connection:{
+      empty:[
+        "Send one simple message: 'Thinking of you 🤍'",
+        "Talk to someone safe for five minutes.",
+        "Ask someone to sit with you."
+      ],
+      low:[
+        "Send one voice message.",
+        "Call someone you genuinely like.",
+        "Have a short conversation without multitasking."
+      ],
+      okay:[
+        "Make a small social plan.",
+        "Message someone you haven't spoken to recently.",
+        "Have coffee with someone."
+      ],
+      good:[
+        "Use your energy to nurture one relationship.",
+        "Make a real plan with someone.",
+        "Go somewhere social that feels enjoyable."
+      ]
+    },
+
+    fun:{
+      empty:[
+        "Watch one comforting episode guilt-free.",
+        "Listen to your favorite music in bed.",
+        "Do absolutely nothing useful for 15 minutes."
+      ],
+      low:[
+        "Do one tiny thing purely because you like it.",
+        "Watch something funny.",
+        "Open Pinterest for inspiration — not comparison."
+      ],
+      okay:[
+        "Do something creative for 20 minutes.",
+        "Go somewhere beautiful.",
+        "Choose pleasure before another obligation."
+      ],
+      good:[
+        "Plan something you genuinely look forward to.",
+        "Try something new just for fun.",
+        "Give yourself a mini adventure."
+      ]
+    }
+
+  };
+
+
+  /* =========================
+     SOUND
+  ========================= */
+
+  function sound(
+    frequency = 600,
+    duration = .15
+  ){
+
+    try{
+
+      const AudioContext =
+        window.AudioContext ||
+        window.webkitAudioContext;
+
+      if(!AudioContext) return;
+
+      const ctx =
+        new AudioContext();
+
+      const osc =
+        ctx.createOscillator();
+
+      const gain =
+        ctx.createGain();
+
+      osc.type = "sine";
+
+      osc.frequency.value =
+        frequency;
+
+      gain.gain.setValueAtTime(
+        .0001,
+        ctx.currentTime
+      );
+
+      gain.gain.exponentialRampToValueAtTime(
+        .045,
+        ctx.currentTime + .02
+      );
+
+      gain.gain.exponentialRampToValueAtTime(
+        .0001,
+        ctx.currentTime + duration
+      );
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start();
+
+      osc.stop(
+        ctx.currentTime +
+        duration +
+        .03
+      );
+
+      setTimeout(
+        () => ctx.close(),
+        700
+      );
+
+    }catch(e){}
+
+  }
+
+
+  /* =========================
+     WATER EFFECT
+  ========================= */
+
+  function createDrop(){
+
+    const drop =
+      document.createElement("span");
+
+    drop.className = "drop";
+
+    const symbols = [
+      "💧",
+      "✦",
+      "♡",
+      "⋆",
+      "🫧"
+    ];
+
+    drop.textContent =
+      symbols[
+        Math.floor(
+          Math.random() * symbols.length
+        )
+      ];
+
+    drop.style.left =
+      (20 + Math.random() * 60) + "%";
+
+    drop.style.bottom =
+      (30 + Math.random() * 30) + "px";
+
+    drop.style.setProperty(
+      "--drift",
+      ((Math.random() - .5) * 70) + "px"
+    );
+
+    effects.appendChild(drop);
+
+    setTimeout(
+      () => drop.remove(),
+      1800
+    );
+
+  }
+
+
+  function celebration(){
+
+    for(
+      let i = 0;
+      i < 10;
+      i++
+    ){
+
+      setTimeout(
+        createDrop,
+        i * 80
+      );
+
+    }
+
+    sound(523,.15);
+
+    setTimeout(
+      () => sound(659,.15),
+      120
+    );
+
+    setTimeout(
+      () => sound(784,.22),
+      240
+    );
+
+  }
+
+
+  /* =========================
+     UPDATE ACTION
+  ========================= */
+
+  function updateAction(){
+
+    if(
+      !selectedEnergy ||
+      !selectedNeed
+    ){
+
+      actionTitle.textContent =
+        "Choose your energy + need.";
+
+      actionText.textContent =
+        "The widget will give you one small thing to do.";
+
+      return;
+
+    }
+
+    const list =
+      actions[selectedNeed][selectedEnergy];
+
+    const choice =
+      list[
+        Math.floor(
+          Math.random() * list.length
+        )
+      ];
+
+    actionTitle.textContent =
+      choice;
+
+    actionText.textContent =
+      "No catching up. No productivity tax. Just recovery.";
+
+    message.textContent =
+      "This is enough for right now.";
+
+  }
+
+
+  /* =========================
+     ENERGY
+  ========================= */
+
+  energyButtons.forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        function(){
+
+          energyButtons.forEach(
+            item =>
+              item.classList.remove("active")
+          );
+
+          this.classList.add("active");
+
+          selectedEnergy =
+            this.dataset.energy;
+
+          updateAction();
+
+          createDrop();
+
+          sound(500,.12);
+
+        }
+      );
+
+    }
+  );
+
+
+  /* =========================
+     NEED
+  ========================= */
+
+  needButtons.forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        function(){
+
+          needButtons.forEach(
+            item =>
+              item.classList.remove("active")
+          );
+
+          this.classList.add("active");
+
+          selectedNeed =
+            this.dataset.need;
+
+          updateAction();
+
+          createDrop();
+
+          sound(620,.12);
+
+        }
+      );
+
+    }
+  );
+
+
+  /* =========================
+     DONE
+  ========================= */
+
+  doneButton.addEventListener(
+    "click",
+    function(){
+
+      if(
+        !selectedEnergy ||
+        !selectedNeed
+      ){
+
+        message.textContent =
+          "Pick your battery level + what you need first.";
+
+        sound(300,.12);
+
+        return;
+
+      }
+
+      celebration();
+
+      document
+        .querySelector(".energy-box")
+        .style.display =
+        "none";
+
+      document
+        .querySelector(".need-title")
+        .style.display =
+        "none";
+
+      document
+        .querySelector(".needs")
+        .style.display =
+        "none";
+
+      document
+        .querySelector(".action")
+        .style.display =
+        "none";
+
+      message.style.display =
+        "none";
+
+      resetButton.style.display =
+        "none";
+
+      complete.style.display =
+        "block";
+
+    }
+  );
+
+
+  /* =========================
+     RESET
+  ========================= */
+
+  function reset(){
+
+    selectedEnergy = "";
+    selectedNeed = "";
+
+    energyButtons.forEach(
+      item =>
+        item.classList.remove("active")
+    );
+
+    needButtons.forEach(
+      item =>
+        item.classList.remove("active")
+    );
+
+    document
+      .querySelector(".energy-box")
+      .style.display =
+      "block";
+
+    document
+      .querySelector(".need-title")
+      .style.display =
+      "block";
+
+    document
+      .querySelector(".needs")
+      .style.display =
+      "flex";
+
+    document
+      .querySelector(".action")
+      .style.display =
+      "block";
+
+    message.style.display =
+      "block";
+
+    resetButton.style.display =
+      "block";
+
+    complete.style.display =
+      "none";
+
+    actionTitle.textContent =
+      "Choose your energy + need.";
+
+    actionText.textContent =
+      "The widget will give you one small thing to do.";
+
+    message.textContent =
+      "Recovery is productive too.";
+
+    sound(350,.12);
+
+  }
+
+
+  resetButton.addEventListener(
+    "click",
+    reset
+  );
+
+  againButton.addEventListener(
+    "click",
+    reset
+  );
+
+
+})();
+
+</script>
+
+</body>
+</html>
